@@ -72,7 +72,7 @@ case "$1" in
     ;;
   "image" )
     docker rmi vognev/base || true
-    docker build --build-arg http_proxy=$http_proxy -f Dockerfile.base -t vognev/base:$TAG .
+    docker build --build-arg http_proxy=$http_proxy -f Dockerfile -t vognev/base:$TAG .
     ;;
   "run" )
     docker run -it --rm --entrypoint /bin/bash vognev/base:$TAG

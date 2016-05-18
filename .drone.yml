@@ -13,7 +13,7 @@ publish:
     password: $$DOCKER_PASSWORD
     repo: vognev/base
     tag: latest
-    file: Dockerfile.base
+    file: Dockerfile
     when:
       branch: master
       event: push
