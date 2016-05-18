@@ -55,7 +55,7 @@ case "$1" in
 
     # get uris of debs and cache them
     aptget --print-uris --yes install $base | cut -d\' -f2 | grep http:// > list.txt
-    wget -P $root/var/cache/apt/archives -i list.txt && rm list.txt
+    wget -nv -P $root/var/cache/apt/archives -i list.txt && rm list.txt
 
     # unpack debs to $root
     for pkg in $root/var/cache/apt/archives/*.deb; do 
