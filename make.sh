@@ -11,7 +11,7 @@ if [ "$#" == "0" ]; then
 fi
 
 # base packages to be installed
-base="apt base-passwd bash ca-certificates coreutils debconf findutils grep gzip libc-bin login passwd sed"
+base="apt base-passwd bash ca-certificates coreutils debconf findutils grep gzip libc-bin login passwd sed util-linux"
 
 # build directory
 build=$(dirname $(readlink -m $0))
