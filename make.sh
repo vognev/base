@@ -6,7 +6,7 @@ set -e
 TAG=${TAG:-latest}
 
 if [ "$#" == "0" ]; then
-  echo "Usage: $0 <tar> <image> <test> <run> <push>"
+  echo "Usage: $0 <docktar> <image> <test> <run> <push>"
   exit 1
 fi
 
@@ -35,6 +35,9 @@ function aptget() {
 
 while test $# -gt 0; do
 case "$1" in
+  "docktar" )
+    docker run --privileged --rm -it -v ${PWD}:/build debian:jessie /bin/bash -c "apt-get update && apt-get install -y wget && /build/make.sh tar"
+    ;;
   "tar" )
     # cleanup
     mkdir -p $root; rm -rf $root/*
