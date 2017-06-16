@@ -7,4 +7,3 @@ ENV DEBCONF_NONINTERACTIVE_SEEN=true
 ADD root.tar.gz /
 ADD ./bin/wupiao /usr/local/bin/wupiao
 
-ENTRYPOINT ["/bin/bash"]
