@@ -3,7 +3,9 @@
 # stop on any error happened
 set -e
 
-TAG=${TAG:-latest}
+TAG=${TAG:-armhf}
+
+IMG="casept/debian-armhf:jessie"
 
 if [ "$#" == "0" ]; then
   echo "Usage: $0 <docktar> <image> <test> <run> <push>"
@@ -36,7 +38,7 @@ function aptget() {
 while test $# -gt 0; do
 case "$1" in
   "docktar" )
-    docker run --privileged --rm -it -v ${PWD}:/build debian:jessie /bin/bash -c "apt-get update && apt-get install -y wget && /build/make.sh tar"
+    docker run --privileged --rm -it -v ${PWD}:/build $IMG /bin/bash -c "apt-get update && apt-get install -y wget && /build/make.sh tar"
     ;;
   "tar" )
     # cleanup
@@ -74,8 +76,8 @@ case "$1" in
     cd root; tar czf ../root.tar.gz .
     ;;
   "image" )
-    docker rmi vognev/base || true
-    docker build --build-arg http_proxy=$http_proxy -f Dockerfile -t vognev/base:$TAG .
+    docker rmi vognev/base:$TAG || true
+    docker build -f Dockerfile -t vognev/base:$TAG .
     ;;
   "run" )
     docker run -it --rm --entrypoint /bin/bash vognev/base:$TAG
