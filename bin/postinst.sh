@@ -5,16 +5,13 @@ set -e
 find /usr/share/doc/ -type f -delete
 find /usr/share/man/ -type f -delete
 find /usr/share/info/ -type f -delete
-find /usr/share/locale/ -type f -delete
 
 mkdir -p /etc/dpkg/dpkg.cfg.d
 echo "log /dev/null" > /etc/dpkg/dpkg.cfg.d/lognull
 echo "path-exclude=/usr/share/doc/*
 path-exclude=/usr/share/man/*
 path-exclude=/usr/share/info/*
-path-exclude=/usr/share/locale/*
 path-exclude=/etc/cron.*
-path-include=/usr/share/locale/{en,en_US}/*
 " > /etc/dpkg/dpkg.cfg.d/pathexclude
 
 mkdir -p /etc/apt/apt.conf.d

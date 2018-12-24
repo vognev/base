@@ -1,1 +1,0 @@
-[![Build Status](http://ci.ognev.pp.ua/api/badges/vognev/base/status.svg)](http://ci.ognev.pp.ua/vognev/base)
