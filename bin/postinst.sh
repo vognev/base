@@ -39,6 +39,7 @@ sed -i 's/^exit.*/exit 0/' /sbin/initctl
 ln -s /bin/true /sbin/runlevel
 
 echo "* Reinstalling packages"
+dpkg --update-avail
 dpkg -i --force-depends /var/cache/apt/archives/base-passwd_*.deb && rm /var/cache/apt/archives/base-passwd_*.deb
 dpkg -i --force-depends /var/cache/apt/archives/mawk_*.deb        && rm /var/cache/apt/archives/mawk_*.deb
 dpkg -i --force-depends /var/cache/apt/archives/base-files_*.deb  && rm /var/cache/apt/archives/base-files_*.deb

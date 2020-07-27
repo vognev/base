@@ -11,7 +11,7 @@ if [ "$#" == "0" ]; then
 fi
 
 # base packages to be installed
-base="apt base-passwd bash ca-certificates coreutils debconf findutils grep gzip libc-bin login passwd sed util-linux netcat"
+base="apt base-passwd bash ca-certificates coreutils debconf findutils grep gzip libc-bin login passwd sed util-linux netcat diffutils"
 
 # build directory
 build=$(dirname $(readlink -m $0))
@@ -27,8 +27,9 @@ APT_CONFIG="etc/apt/apt.conf"
 
 # shorthand for apt-get with our layout
 function aptget() {
-  APT_CONFIG=$APT_CONFIG apt-get -o Dir=$root \
+  APT_CONFIG=$APT_CONFIG apt-get \
     -o Dir="$root" \
+    -o Dir::State="$root/var/lib/apt" \
     -o Dir::State::status="$root/var/lib/dpkg/status" \
     $@
 }
@@ -36,7 +37,7 @@ function aptget() {
 while test $# -gt 0; do
 case "$1" in
   "docktar" )
-    docker run --privileged --rm -it -v ${PWD}:/build debian:jessie /bin/bash -c "apt-get update && apt-get install -y wget && /build/make.sh tar"
+    docker run --privileged --rm -it -v ${PWD}:/build debian:stretch /bin/bash -c "apt-get update && apt-get install -y wget && /build/make.sh tar"
     ;;
   "tar" )
     # cleanup
@@ -68,13 +69,12 @@ case "$1" in
 
     # settle postinstall script
     cp bin/postinst.sh $root/ && chmod +x $root/postinst.sh
-
     ./bin/chroot.sh $root /postinst.sh
 
     cd root; tar czf ../root.tar.gz .
     ;;
   "image" )
-    docker rmi vognev/base || true
+    docker rmi vognev/base:$TAG || true
     docker build --build-arg http_proxy=$http_proxy -f Dockerfile -t vognev/base:$TAG .
     ;;
   "run" )
